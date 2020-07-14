@@ -44,6 +44,14 @@ export const StyledImage = styled.div`
     font-weight: bold;
     font-size: 15px;
   }
+
+  :hover {
+    background: #555555;
+
+    span {
+      color: #fff;
+    }
+  }
 `;
 
 export const StyledNameContainer = styled.div`
