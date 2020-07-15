@@ -26,7 +26,10 @@ export default function Table({ items, handleClick }) {
             >
               <SytyledTableRowItem>
                 <HeroImage>
-                  <img src={`${item.thumbnail.path}.jpg`} alt="hero" />
+                  <img
+                    src={`${item.thumbnail.path}.${item.thumbnail.extension}`}
+                    alt="hero"
+                  />
                 </HeroImage>
                 <Text weight="bold" size="16px">
                   {item.name}

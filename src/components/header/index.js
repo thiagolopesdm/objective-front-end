@@ -1,5 +1,7 @@
 import React from 'react';
 
+import history from '../../services/history';
+
 import LogoImage from '../../assets/images/objectiveLogo.png';
 import Flex from '../ui/Flex';
 
@@ -17,7 +19,7 @@ export default function Header() {
     <div style={{ height: '64px' }}>
       <StyledHeader>
         <Flex justifyContent="space-between" alignItems="center">
-          <StyledLogo>
+          <StyledLogo onClick={() => history.push('/')}>
             <img src={LogoImage} alt="Objective Logo" />
           </StyledLogo>
           <StyledUserContainer>

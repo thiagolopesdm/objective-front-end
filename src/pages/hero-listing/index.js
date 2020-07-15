@@ -4,22 +4,29 @@ import axios from 'axios';
 import createHash from '../../utils/createHash';
 
 import Text from '../../components/ui/Text';
+import Input from '../../components/ui/Input';
 import TableHeader from '../../components/table/header';
 import TableBody from '../../components/table/body';
-
 import Pagination from '../../components/ui/Pagination';
 
-import { StyledContainer } from './styles';
+import history from '../../services/history';
+
+import { StyledContainer, SearchBar, PageTitle } from './styles';
 
 export default function Home() {
   const [items, setItems] = React.useState([]);
+  const [search, setSearch] = React.useState('');
   const [currentPage, setCurrentPage] = React.useState(1);
   const [postPerPage] = React.useState(10);
 
   const indexOfLastPost = currentPage * postPerPage;
   const indexOfFirstPost = indexOfLastPost - postPerPage;
 
-  const currentItems = items.slice(indexOfFirstPost, indexOfLastPost);
+  const filteredHeroes = items
+    .slice(indexOfFirstPost, indexOfLastPost)
+    .filter((hero) => {
+      return hero.name.includes(search);
+    });
 
   function heroesRequest() {
     const timeStamp = Date.now().toString();
@@ -44,15 +51,23 @@ export default function Home() {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  const goToPage = (item) => console.log(item);
+  const goToPage = (hero) => history.push(`/hero/${hero.id}/detail`);
+
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+  };
 
   return (
     <StyledContainer>
-      <Text size="32px" weight="bold">
-        Busca de Personagens
-      </Text>
+      <PageTitle>Busca de Personagens</PageTitle>
+      <SearchBar>
+        <Text weight="bold" style={{ marginBottom: '8px' }}>
+          Nome do Personagem
+        </Text>
+        <Input value={search} onChange={handleChange} icon="search" />
+      </SearchBar>
       <TableHeader />
-      <TableBody items={currentItems} handleClick={goToPage} />
+      <TableBody items={filteredHeroes} handleClick={goToPage} />
       <Pagination
         postPerPage={postPerPage}
         totalPosts={items.length}
